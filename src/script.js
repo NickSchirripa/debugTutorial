@@ -35,17 +35,31 @@ const scene = new THREE.Scene()
  */
 
 debugObject.color = "#75b8ab"
+debugObject.pillColor  = '#6d66cc'
+
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
 const material = new THREE.MeshBasicMaterial({ color: debugObject.color })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-const move = gui.addFolder("Move Cube")
-const cubeTweaks = gui.addFolder('tweaks')
-const rotate = gui.addFolder('Rotate')
-const  fun = gui.addFolder('Fun')
+const CapsuleGeometry = new THREE.CapsuleGeometry( .5, 1, 4, 8 ); 
+const CapsuleMaterial = new THREE.MeshBasicMaterial( {color: debugObject.pillColor} ); 
+const capsule = new THREE.Mesh( CapsuleGeometry, CapsuleMaterial ); 
+capsule.position.x = 2
+scene.add( capsule );
+
+
+
+
+/*cube*/
+const cubeFolder =  gui.addFolder("Cube")
+const move = cubeFolder.addFolder("Move Cube")
+const cubeTweaks = cubeFolder.addFolder('tweaks')
+const rotate = cubeFolder.addFolder('Rotate')
+const  fun = cubeFolder.addFolder('Fun')
 
 cubeTweaks.close()
+
 
 move
     .add(mesh.position, "y")
@@ -75,14 +89,14 @@ rotate
     .step(.01)
     .name('Rotate Z')
 
-    rotate
+rotate
     .add(mesh.rotation, 'x')
     .min(-3)
     .max(3)
     .step(.01)
     .name('Rotate x')
 
-    rotate
+rotate
     .add(mesh.rotation, 'y')
     .min(-3)
     .max(3)
@@ -128,6 +142,102 @@ cubeTweaks
     })
 
 
+
+/*pill*/
+
+const pillFolder =  gui.addFolder("Pill")
+const movePill = pillFolder.addFolder("Move Pill")
+const pillTweaks = pillFolder.addFolder('tweaks')
+const rotatePill = pillFolder.addFolder('Rotate')
+const  funPill = pillFolder.addFolder('Fun')
+
+
+movePill
+    .add(capsule.position, "y")
+    .min(-3)
+    .max(3)
+    .step(.01)
+    .name('Elevation')
+
+movePill
+    .add(capsule.position, "x")
+    .min(-5)
+    .max(5)
+    .step(.01)
+    .name('Horizontal')
+
+movePill
+    .add(capsule.position, "z")
+    .min(-3)
+    .max(3)
+    .step(.01)
+    .name('Depth')
+
+rotatePill
+    .add(capsule.rotation, 'z')
+    .min(-3)
+    .max(3)
+    .step(.01)
+    .name('Rotate Z')
+
+rotatePill
+    .add(capsule.rotation, 'x')
+    .min(-3)
+    .max(3)
+    .step(.01)
+    .name('Rotate x')
+
+rotatePill
+    .add(capsule.rotation, 'y')
+    .min(-3)
+    .max(3)
+    .step(.01)
+    .name('Rotate y')
+
+
+pillTweaks
+    .add(capsule, "visible")
+    .name('Visible')
+
+pillTweaks
+    .add(CapsuleMaterial, 'wireframe')
+    .name('Wireframe')
+  
+pillTweaks
+    .addColor(debugObject, 'pillColor')
+    .name('Color Picker')
+    .onChange(()=>{
+        CapsuleMaterial.color.set(debugObject.pillColor)
+    })
+
+
+    
+debugObject.spinPill = () =>{
+        gsap.to(capsule.rotation, {y:capsule.rotation.y + Math.PI * 2})
+    }
+
+
+funPill
+    .add(debugObject, 'spinPill')
+    .name('Spin!')
+
+
+function  spin(object){
+    gsap.to(object.rotation, {y:object.rotation.y + Math.PI * 2})
+}
+
+
+pillTweaks
+    .add(debugObject, 'subdivision')
+    .min(1)
+    .max(20)
+    .step(1)
+    .onFinishChange(()=>{
+        capsule.CapsuleGeometry.dispose()
+        capsule.CapsuleGeometry = new THREE.BoxGeometry(.5, 1, 4, 8)
+    })
+
+
 /**
  * Sizes
  */
@@ -156,9 +266,9 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 1
-camera.position.y = 1
-camera.position.z = 2
+camera.position.x = 3
+camera.position.y = 3
+camera.position.z = 3
 scene.add(camera)
 
 // Controls
