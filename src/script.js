@@ -10,8 +10,14 @@ const gui = new GUI({
     title: "Cool Controls",
     closeFolders: true,
 })
-
+gui.hide()
 gui.close()
+
+window.addEventListener('keydown', (e)=>{
+    if(e.key =='h'){
+        gui.show(gui._hidden)
+    }
+})
 const debugObject = {}
 
 
