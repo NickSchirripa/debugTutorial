@@ -42,9 +42,9 @@ const material = new THREE.MeshBasicMaterial({ color: debugObject.color })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-const CapsuleGeometry = new THREE.CapsuleGeometry( .5, 1, 4, 8 ); 
+const CapGeometry = new THREE.CapsuleGeometry( .5, 1, 4, 8 ); 
 const CapsuleMaterial = new THREE.MeshBasicMaterial( {color: debugObject.pillColor} ); 
-const capsule = new THREE.Mesh( CapsuleGeometry, CapsuleMaterial ); 
+const capsule = new THREE.Mesh( CapGeometry, CapsuleMaterial ); 
 capsule.position.x = 2
 scene.add( capsule );
 
@@ -226,15 +226,18 @@ function  spin(object){
     gsap.to(object.rotation, {y:object.rotation.y + Math.PI * 2})
 }
 
+debugObject.subCap = 4
+debugObject.subdivisionPillTwo  = 8
 
 pillTweaks
-    .add(debugObject, 'subdivision')
+    .add(debugObject, 'subCap')
     .min(1)
     .max(20)
     .step(1)
+    .name('Cap Subdivision')
     .onFinishChange(()=>{
-        capsule.CapsuleGeometry.dispose()
-        capsule.CapsuleGeometry = new THREE.BoxGeometry(.5, 1, 4, 8)
+        capsule.CapGeometry.dispose()
+        capsule.CapGeometry = new THREE.CapsuleGeometry( .5, 1, debugObject.subCap, 8 )
     })
 
 
