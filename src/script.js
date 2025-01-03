@@ -40,16 +40,31 @@ const material = new THREE.MeshBasicMaterial({ color: debugObject.color })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-
+const move = gui.addFolder("Move Cube")
 const cubeTweaks = gui.addFolder('tweaks')
 cubeTweaks.close()
 
-cubeTweaks
+move
     .add(mesh.position, "y")
     .min(-3)
     .max(3)
     .step(.01)
     .name('elevation')
+
+move
+    .add(mesh.position, "x")
+    .min(-3)
+    .max(3)
+    .step(.01)
+    .name('Horizontal')
+
+move
+    .add(mesh.position, "z")
+    .min(-3)
+    .max(3)
+    .step(.01)
+    .name('Depth')
+
 
 
 cubeTweaks
