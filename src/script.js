@@ -10,7 +10,7 @@ const gui = new GUI({
     title: "Cool Controls",
     closeFolders: true,
 })
-gui.hide()
+
 gui.close()
 
 window.addEventListener('keydown', (e)=>{
