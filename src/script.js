@@ -42,6 +42,9 @@ scene.add(mesh)
 
 const move = gui.addFolder("Move Cube")
 const cubeTweaks = gui.addFolder('tweaks')
+const rotate = gui.addFolder('Rotate')
+const  fun = gui.addFolder('Fun')
+
 cubeTweaks.close()
 
 move
@@ -49,7 +52,7 @@ move
     .min(-3)
     .max(3)
     .step(.01)
-    .name('elevation')
+    .name('Elevation')
 
 move
     .add(mesh.position, "x")
@@ -65,15 +68,36 @@ move
     .step(.01)
     .name('Depth')
 
+rotate
+    .add(mesh.rotation, 'z')
+    .min(-3)
+    .max(3)
+    .step(.01)
+    .name('Rotate Z')
+
+    rotate
+    .add(mesh.rotation, 'x')
+    .min(-3)
+    .max(3)
+    .step(.01)
+    .name('Rotate x')
+
+    rotate
+    .add(mesh.rotation, 'y')
+    .min(-3)
+    .max(3)
+    .step(.01)
+    .name('Rotate y')
+
 
 
 cubeTweaks
     .add(mesh, "visible")
-    .name('visible')
+    .name('Visible')
 
 cubeTweaks 
     .add(material,'wireframe' )
-    .name('wire')
+    .name('Wireframe')
 
 cubeTweaks
     .addColor(debugObject, 'color')
@@ -86,9 +110,9 @@ debugObject.spin = () =>{
     gsap.to(mesh.rotation, {y:mesh.rotation.y + Math.PI * 2})
 }
 
-cubeTweaks
+fun
     .add(debugObject, 'spin')
-    .name('spin')
+    .name('Spin!')
 
 debugObject.subdivision = 2
 
