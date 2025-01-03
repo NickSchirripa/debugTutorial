@@ -5,7 +5,13 @@ import GUI from "lil-gui"
 
 /*debug*/
 
-const gui = new GUI()
+const gui = new GUI({
+    width:250,
+    title: "Cool Controls",
+    closeFolders: true,
+})
+
+gui.close()
 const debugObject = {}
 
 
@@ -28,7 +34,11 @@ const material = new THREE.MeshBasicMaterial({ color: debugObject.color })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-gui
+
+const cubeTweaks = gui.addFolder('tweaks')
+cubeTweaks.close()
+
+cubeTweaks
     .add(mesh.position, "y")
     .min(-3)
     .max(3)
@@ -36,15 +46,15 @@ gui
     .name('elevation')
 
 
-gui
+cubeTweaks
     .add(mesh, "visible")
     .name('visible')
 
-gui 
+cubeTweaks 
     .add(material,'wireframe' )
     .name('wire')
 
-gui
+cubeTweaks
     .addColor(debugObject, 'color')
     .name('Color Picker')
     .onChange(()=>{
@@ -55,13 +65,13 @@ debugObject.spin = () =>{
     gsap.to(mesh.rotation, {y:mesh.rotation.y + Math.PI * 2})
 }
 
-gui
+cubeTweaks
     .add(debugObject, 'spin')
     .name('spin')
 
 debugObject.subdivision = 2
 
-gui
+cubeTweaks
     .add(debugObject, 'subdivision')
     .min(1)
     .max(20)
